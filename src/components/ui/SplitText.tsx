@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, type ElementType, type ReactNode } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useEffect, useRef } from "react";
+import { gsap } from "@/lib/gsap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,6 @@ type Props = {
   immediate?: boolean;
   /** Gate the mount-time animation (e.g. wait for preloader to finish). */
   play?: boolean;
-  as?: ElementType;
   className?: string;
 };
 
@@ -34,10 +33,9 @@ export function SplitText({
   ease = "expo.out",
   immediate = false,
   play = true,
-  as: Tag = "span",
   className,
 }: Props) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
   const reduced = useReducedMotion();
 
   const tokens =
@@ -80,9 +78,9 @@ export function SplitText({
   }, [reduced, play, immediate, delay, stagger, duration, ease]);
 
   return (
-    <Tag ref={ref} className={cn("inline-block", className)} aria-label={children}>
+    <span ref={ref} className={cn("inline-block", className)} aria-label={children}>
       {tokens.map((token, i) => {
-        if (/^\s+$/.test(token)) return token;
+        if (/^\s+$/.test(token)) return <span key={i}>{token}</span>;
         return (
           <span
             key={i}
@@ -94,7 +92,7 @@ export function SplitText({
             </span>
           </span>
         );
-      }) as ReactNode}
-    </Tag>
+      })}
+    </span>
   );
 }

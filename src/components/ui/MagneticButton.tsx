@@ -19,6 +19,8 @@ type Props = {
   ariaLabel?: string;
   target?: string;
   rel?: string;
+  type?: "button" | "submit";
+  disabled?: boolean;
 };
 
 /**
@@ -34,6 +36,8 @@ export function MagneticButton({
   ariaLabel,
   target,
   rel,
+  type = "button",
+  disabled,
 }: Props) {
   const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -96,7 +100,8 @@ export function MagneticButton({
   return (
     <button
       ref={ref}
-      type="button"
+      type={type}
+      disabled={disabled}
       aria-label={ariaLabel}
       onClick={onClick}
       onMouseMove={move}

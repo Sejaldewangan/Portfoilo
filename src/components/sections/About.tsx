@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { SITE, TIMELINE } from "@/lib/content";
 import { SplitText } from "@/components/ui/SplitText";
 import { useReducedMotion } from "@/hooks/useReducedMotion";

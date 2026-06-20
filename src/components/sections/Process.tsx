@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Search, PenTool, Code2, Zap, Rocket, type LucideIcon } from "lucide-react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { PROCESS } from "@/lib/content";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 

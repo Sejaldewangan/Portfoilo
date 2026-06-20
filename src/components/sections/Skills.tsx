@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { SKILLS, STATS } from "@/lib/content";
 import { Counter } from "@/components/ui/Counter";
 import { useReducedMotion } from "@/hooks/useReducedMotion";

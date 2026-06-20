@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
@@ -30,13 +30,10 @@ export function Counter({
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const [value, setValue] = useState(reduced ? target : 0);
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (reduced) {
-      setValue(target);
-      return;
-    }
+    if (reduced) return;
     const el = ref.current;
     if (!el) return;
 
@@ -54,7 +51,9 @@ export function Counter({
     return () => ctx.revert();
   }, [reduced, target, duration]);
 
-  const shown = pad ? String(value).padStart(pad, "0") : String(value);
+  // Reduced motion → show the final number, no count-up.
+  const display = reduced ? target : value;
+  const shown = pad ? String(display).padStart(pad, "0") : String(display);
 
   return (
     <div ref={ref} className={className}>

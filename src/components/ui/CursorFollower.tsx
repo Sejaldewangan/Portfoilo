@@ -20,6 +20,8 @@ export function CursorFollower() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduced) return;
 
+    // One-time client capability check → enable the custom cursor.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEnabled(true);
     document.documentElement.classList.add("has-custom-cursor");
 

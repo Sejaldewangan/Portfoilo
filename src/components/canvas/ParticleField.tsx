@@ -1,21 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import type { Points as ThreePoints } from "three";
 
-function Particles({ count }: { count: number }) {
+function Particles({ positions }: { positions: Float32Array }) {
   const ref = useRef<ThreePoints>(null);
-
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 20;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 5;
-    }
-    return arr;
-  }, [count]);
 
   useFrame(({ pointer }) => {
     const mesh = ref.current;
@@ -29,10 +19,7 @@ function Particles({ count }: { count: number }) {
   return (
     <points ref={ref}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
         size={0.018}
@@ -46,25 +33,36 @@ function Particles({ count }: { count: number }) {
   );
 }
 
+function makePositions(count: number) {
+  const arr = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    arr[i * 3] = (Math.random() - 0.5) * 20;
+    arr[i * 3 + 1] = (Math.random() - 0.5) * 10;
+    arr[i * 3 + 2] = (Math.random() - 0.5) * 5;
+  }
+  return arr;
+}
+
 /**
- * Three.js particle background. Particle count drops on small screens. Skipped
- * entirely under reduced motion. Lazy/dynamic-import this from sections.
+ * Three.js particle background. Particle count drops on small screens and is
+ * skipped under reduced motion. Dynamic/lazy-import this from sections so it
+ * never blocks first paint.
  */
 export default function ParticleField() {
-  const [count, setCount] = useState(0);
+  const [positions, setPositions] = useState<Float32Array | null>(null);
 
   useEffect(() => {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (reduced) {
-      setCount(0);
-      return;
-    }
-    setCount(window.innerWidth < 768 ? 800 : 2000);
+    if (reduced) return;
+    const count = window.innerWidth < 768 ? 800 : 2000;
+    // One-time client measurement → build the field.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPositions(makePositions(count));
   }, []);
 
-  if (count === 0) return null;
+  if (!positions) return null;
 
   return (
     <div className="absolute inset-0 -z-10">
@@ -74,7 +72,7 @@ export default function ParticleField() {
         gl={{ antialias: false, powerPreference: "high-performance" }}
         frameloop="always"
       >
-        <Particles count={count} />
+        <Particles positions={positions} />
       </Canvas>
     </div>
   );

@@ -168,19 +168,19 @@ export function Contact() {
 
           <div className="flex items-center gap-4">
             <MagneticButton
-              onClick={() => {}}
+              type="submit"
+              disabled={status === "sending"}
               ariaLabel="Send message"
-              className="!cursor-pointer"
+              className="rounded-full px-7 py-3 font-semibold disabled:opacity-60"
             >
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className="-mx-6 -my-3 flex items-center gap-1 rounded-full px-7 py-3 font-semibold disabled:opacity-60"
-                style={{ background: "var(--accent-primary)", color: "var(--bg-void)" }}
-              >
+              <span
+                className="pointer-events-none absolute inset-0 -z-10 rounded-full"
+                style={{ background: "var(--accent-primary)" }}
+              />
+              <span style={{ color: "var(--bg-void)" }}>
                 {status === "sending" ? "Sending…" : "Send message"}
-                <ArrowUpRight size={16} />
-              </button>
+              </span>
+              <ArrowUpRight size={16} style={{ color: "var(--bg-void)" }} />
             </MagneticButton>
 
             <p role="status" aria-live="polite" className="caption">

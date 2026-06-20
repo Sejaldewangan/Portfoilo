@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { PROJECTS, type Project } from "@/lib/content";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
