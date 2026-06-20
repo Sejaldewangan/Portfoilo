@@ -1,0 +1,85 @@
+/* Keyframe library — non-GSAP ambient motion */
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes scroll-hint {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes blink-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes accent-flash {
+  0% {
+    background: var(--accent-primary);
+    opacity: 0.15;
+  }
+  100% {
+    background: transparent;
+    opacity: 0;
+  }
+}
+
+.anim-float {
+  animation: float-y 4s ease-in-out infinite;
+}
+.anim-scroll-hint {
+  animation: scroll-hint 1.8s ease-in-out infinite;
+}
+.anim-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.anim-caret {
+  display: inline-block;
+  animation: blink-caret 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float,
+  .anim-scroll-hint,
+  .anim-pulse-dot,
+  .anim-caret {
+    animation: none !important;
+  }
+}

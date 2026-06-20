@@ -1,26 +1,203 @@
 @import "tailwindcss";
 
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-void: #020202;
+  --bg-surface: #0d0d0d;
+  --bg-elevated: #161616;
+  --accent-primary: #e8ff47;
+  --accent-muted: #a3b82a;
+  --text-bright: #f0ede8;
+  --text-mid: #8a8a8a;
+  --text-dim: #3a3a3a;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-active: rgba(232, 255, 71, 0.3);
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 150ms;
+  --dur-standard: 400ms;
+  --dur-cinematic: 1200ms;
 }
 
+/* Expose tokens to Tailwind v4 utilities */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-void: var(--bg-void);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-elevated);
+  --color-accent: var(--accent-primary);
+  --color-accent-muted: var(--accent-muted);
+  --color-bright: var(--text-bright);
+  --color-mid: var(--text-mid);
+  --color-dim: var(--text-dim);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   BASE
+   ============================================================ */
+* {
+  border-color: var(--border-subtle);
+}
+
+html {
+  background: var(--bg-void);
+  color: var(--text-bright);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto; /* Lenis handles smoothing */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-void);
+  color: var(--text-mid);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Lock scroll while preloader active */
+body.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+::selection {
+  background: var(--accent-primary);
+  color: var(--bg-void);
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+.display-xl {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 900;
+  font-size: clamp(64px, 10vw, 128px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--text-bright);
+}
+
+.display-l {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text-bright);
+}
+
+.heading {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 600;
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: -0.02em;
+  color: var(--text-bright);
+}
+
+.caption {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.shell {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(24px, 4vw, 80px);
+}
+
+@media (max-width: 640px) {
+  .shell {
+    padding-inline: 20px;
+  }
+}
+
+/* ============================================================
+   FORM FIELDS
+   ============================================================ */
+.field {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-void);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-bright);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 14px;
+  transition: border-color var(--dur-standard) var(--ease-expo);
+}
+.field::placeholder {
+  color: var(--text-dim);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--border-active);
+}
+select.field {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* ============================================================
+   A11Y
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 200;
+  padding: 12px 20px;
+  background: var(--accent-primary);
+  color: var(--bg-void);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: top var(--dur-standard) var(--ease-expo);
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* Custom cursor only on fine pointers */
+@media (hover: hover) and (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

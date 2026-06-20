@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cinematic Developer Portfolio
 
-## Getting Started
+A scroll-driven, dark, premium portfolio. Next.js 15 (App Router) · Tailwind v4 · GSAP · Three.js (R3F) · Lenis.
 
-First, run the development server:
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # fill in your keys (optional for the contact form)
+npm run dev                  # http://localhost:3000
+npm run build                # production build
+npm run analyze              # bundle analyzer (ANALYZE=true)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Fill in your content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All placeholder content lives in **`src/lib/content.ts`** — name, role, email,
+socials, projects, skills, timeline, process. Edit that one file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Also replace:
 
-## Learn More
+- `public/cv.pdf` — your real CV
+- `public/og-image.jpg` — 1200×630 social card (≤150KB)
+- About section photo: `src/components/sections/About.tsx` → swap the
+  `[ your photo ]` placeholder for `<Image src="/profile.jpg" … />`
 
-To learn more about Next.js, take a look at the following resources:
+## Sections
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Preloader · Nav · Hero (particle field) · Scroll Cinematic (the showstopper) ·
+Work · Skills · About · Process · Contact · Footer.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
+- **SplitText** is a hand-rolled free component (`src/components/ui/SplitText.tsx`) —
+  no paid GSAP Club license needed.
+- All animation respects `prefers-reduced-motion`; content stays visible.
+- The contact form (`/api/contact`, Edge runtime) degrades gracefully without
+  `RESEND_API_KEY` / Upstash keys — it returns a clear error instead of crashing.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Key | Purpose |
+| --- | --- |
+| `RESEND_API_KEY` | Send contact emails |
+| `CONTACT_EMAIL` | Where inquiries land |
+| `UPSTASH_REDIS_REST_URL` / `_TOKEN` | Rate limit (3/IP/hr) — optional |
