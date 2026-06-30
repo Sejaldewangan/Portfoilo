@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { gsap } from "@/lib/gsap";
 import { PROJECTS, type Project } from "@/lib/content";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { Reveal } from "@/components/ui/Reveal";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { ChapterVisual } from "./ChapterVisual";
 import { cn } from "@/lib/utils";
@@ -12,14 +13,12 @@ import { cn } from "@/lib/utils";
 export function Work() {
   return (
     <section id="work" className="shell py-28 md:py-40">
-      <header className="mb-20 flex items-end justify-between">
-        <div>
-          <p className="caption mb-4" style={{ color: "var(--accent-primary)" }}>
-            Selected Work · {PROJECTS.length} of {PROJECTS.length}
-          </p>
-          <h2 className="display-l">Things I&apos;ve shipped.</h2>
-        </div>
-      </header>
+      <Reveal as="header" stagger className="mb-20">
+        <p className="caption mb-4" style={{ color: "var(--accent-primary)" }}>
+          Selected Work · {PROJECTS.length} of {PROJECTS.length}
+        </p>
+        <h2 className="display-l">Things I&apos;ve shipped.</h2>
+      </Reveal>
 
       <div className="flex flex-col gap-28 md:gap-40">
         {PROJECTS.map((p, i) => (
@@ -43,21 +42,23 @@ function Row({
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced) return;
     const el = rowRef.current;
     if (!el) return;
+    // Reduced motion → opacity-only fade, no horizontal slide.
+    const dx = reduced ? 0 : 80;
+    const dur = reduced ? 0.5 : 1;
     const ctx = gsap.context(() => {
       gsap.from(".work-text", {
-        x: -80,
+        x: -dx,
         opacity: 0,
-        duration: 1,
+        duration: dur,
         ease: "expo.out",
         scrollTrigger: { trigger: el, start: "top 80%" },
       });
       gsap.from(".work-visual", {
-        x: 80,
+        x: dx,
         opacity: 0,
-        duration: 1,
+        duration: dur,
         ease: "expo.out",
         scrollTrigger: { trigger: el, start: "top 80%" },
       });

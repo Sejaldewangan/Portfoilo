@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { SITE, TIMELINE } from "@/lib/content";
 import { SplitText } from "@/components/ui/SplitText";
+import { Reveal } from "@/components/ui/Reveal";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const PARAS = [
@@ -47,12 +48,14 @@ export function About() {
       <div className="grid gap-16 lg:grid-cols-[60%_40%]">
         {/* text */}
         <div>
-          <p className="caption mb-6" style={{ color: "var(--accent-primary)" }}>
-            Who I Am
-          </p>
-          <h2 className="display-l mb-12 max-w-[16ch]">
-            Code is my medium. The web is my canvas.
-          </h2>
+          <Reveal stagger>
+            <p className="caption mb-6" style={{ color: "var(--accent-primary)" }}>
+              Who I Am
+            </p>
+            <h2 className="display-l mb-12 max-w-[16ch]">
+              Code is my medium. The web is my canvas.
+            </h2>
+          </Reveal>
 
           <div className="space-y-6 text-lg" style={{ color: "var(--text-mid)" }}>
             {PARAS.map((p, i) => (

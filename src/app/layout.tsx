@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { CursorFollower } from "@/components/ui/CursorFollower";
 import { SITE } from "@/lib/content";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import "@/styles/animations.css";
 
@@ -38,7 +39,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    creator: SITE.handles.twitter,
     images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },

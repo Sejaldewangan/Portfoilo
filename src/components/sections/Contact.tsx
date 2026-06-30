@@ -4,14 +4,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Copy, Check, ArrowUpRight } from "lucide-react";
-import {
-  GithubIcon,
-  LinkedinIcon,
-  XIcon,
-} from "@/components/ui/BrandIcons";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { contactSchema, type ContactInput } from "@/lib/contact-schema";
 import { SITE, PROJECT_TYPES } from "@/lib/content";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { Reveal } from "@/components/ui/Reveal";
 import { burst } from "@/lib/confetti";
 
 type Status = "idle" | "sending" | "sent" | "error";
@@ -60,11 +57,11 @@ export function Contact() {
       className="shell py-28 md:py-40"
       style={{ background: "var(--bg-void)" }}
     >
-      <h2 className="display-xl mb-16 max-w-[16ch]">
+      <Reveal as="h2" className="display-xl mb-16 max-w-[16ch]">
         Let&apos;s build something worth remembering.
-      </h2>
+      </Reveal>
 
-      <div className="grid gap-12 lg:grid-cols-[40%_60%]">
+      <Reveal stagger className="grid gap-12 lg:grid-cols-[40%_60%]">
         {/* email + socials */}
         <div className="flex flex-col gap-6">
           <button
@@ -104,9 +101,6 @@ export function Contact() {
             </Social>
             <Social href={SITE.socials.linkedin} label="LinkedIn" handle={SITE.handles.linkedin}>
               <LinkedinIcon />
-            </Social>
-            <Social href={SITE.socials.twitter} label="Twitter" handle={SITE.handles.twitter}>
-              <XIcon />
             </Social>
           </div>
 
@@ -197,7 +191,7 @@ export function Contact() {
             </p>
           </div>
         </form>
-      </div>
+      </Reveal>
     </section>
   );
 }

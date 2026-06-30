@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { SKILLS, STATS } from "@/lib/content";
 import { Counter } from "@/components/ui/Counter";
+import { Reveal } from "@/components/ui/Reveal";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 export function Skills() {
@@ -34,14 +35,14 @@ export function Skills() {
 
   return (
     <section ref={ref} id="skills" className="shell py-28 md:py-40">
-      <header className="mb-16">
+      <Reveal as="header" stagger className="mb-16">
         <p className="caption mb-4" style={{ color: "var(--accent-primary)" }}>
           Capabilities
         </p>
         <h2 className="display-l max-w-[18ch]">The tools I actually use.</h2>
-      </header>
+      </Reveal>
 
-      <div className="grid gap-12 lg:grid-cols-3">
+      <Reveal stagger className="grid gap-12 lg:grid-cols-3">
         {SKILLS.map((cat) => (
           <div key={cat.category}>
             <h3 className="heading mb-8">{cat.category}</h3>
@@ -72,7 +73,7 @@ export function Skills() {
             </ul>
           </div>
         ))}
-      </div>
+      </Reveal>
 
       {/* stat cards */}
       <div className="mt-24 grid grid-cols-2 gap-px overflow-hidden rounded-xl border lg:grid-cols-4"

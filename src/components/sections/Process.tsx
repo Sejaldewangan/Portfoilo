@@ -5,6 +5,7 @@ import { Search, PenTool, Code2, Zap, Rocket, type LucideIcon } from "lucide-rea
 import { gsap } from "@/lib/gsap";
 import { PROCESS } from "@/lib/content";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { Reveal } from "@/components/ui/Reveal";
 
 const ICONS: Record<string, LucideIcon> = {
   Search,
@@ -19,9 +20,23 @@ export function Process() {
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced) return;
     const el = ref.current;
     if (!el) return;
+
+    // Reduced motion → simple fade per phase, no scaling/draw.
+    if (reduced) {
+      const ctx = gsap.context(() => {
+        el.querySelectorAll<HTMLElement>(".phase").forEach((phase) => {
+          gsap.from(phase, {
+            opacity: 0,
+            duration: 0.5,
+            scrollTrigger: { trigger: phase, start: "top 85%", once: true },
+          });
+        });
+      }, el);
+      return () => ctx.revert();
+    }
+
     const ctx = gsap.context(() => {
       el.querySelectorAll<HTMLElement>(".phase").forEach((phase) => {
         const tl = gsap.timeline({
@@ -69,12 +84,12 @@ export function Process() {
 
   return (
     <section ref={ref} className="shell py-28 md:py-40">
-      <header className="mb-20">
+      <Reveal as="header" stagger className="mb-20">
         <p className="caption mb-4" style={{ color: "var(--accent-primary)" }}>
           How I Work
         </p>
         <h2 className="display-l">From idea to shipped.</h2>
-      </header>
+      </Reveal>
 
       <div className="relative ml-2">
         {/* vertical connector */}

@@ -42,12 +42,36 @@ export function SplitText({
     by === "words" ? children.split(/(\s+)/) : Array.from(children);
 
   useEffect(() => {
-    if (reduced || !play) return;
+    if (!play) return;
     const el = ref.current;
     if (!el) return;
 
     const parts = el.querySelectorAll<HTMLElement>("[data-split]");
     if (!parts.length) return;
+
+    // Reduced motion → fade the whole line in, no per-word rise.
+    if (reduced) {
+      const ctx = gsap.context(() => {
+        const fade = { opacity: 1, duration: 0.5, delay };
+        if (immediate) {
+          gsap.fromTo(el, { opacity: 0 }, fade);
+        } else {
+          gsap.fromTo(
+            el,
+            { opacity: 0 },
+            {
+              ...fade,
+              scrollTrigger: {
+                trigger: el,
+                start: "top 88%",
+                toggleActions: "play none none none",
+              },
+            },
+          );
+        }
+      }, el);
+      return () => ctx.revert();
+    }
 
     const ctx = gsap.context(() => {
       gsap.set(parts, { yPercent: 110, opacity: 0 });

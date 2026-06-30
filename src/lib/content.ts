@@ -4,23 +4,21 @@
 // ============================================================
 
 export const SITE = {
-  name: "[Your Name]",
-  shortName: "YN",
+  name: "Sejal Dewangan",
+  shortName: "SD",
   role: "Full Stack Developer",
-  email: "hello@yourname.dev",
-  city: "[Your City]",
-  utc: "UTC+0",
+  email: "shubham.dewangan.3440@gmail.com",
+  city: "Durg-Bhilai, Chhattisgarh",
+  utc: "UTC+5:30",
   year: 2025,
   url: "https://yourname.dev",
   socials: {
-    github: "https://github.com/yourhandle",
-    linkedin: "https://linkedin.com/in/yourhandle",
-    twitter: "https://x.com/yourhandle",
+    github: "https://github.com/Sejaldewangan",
+    linkedin: "https://www.linkedin.com/in/sejal-dewangan-411a3439b",
   },
   handles: {
-    github: "@yourhandle",
-    linkedin: "/yourhandle",
-    twitter: "@yourhandle",
+    github: "@Sejaldewangan",
+    linkedin: "/sejal-dewangan",
   },
 };
 
